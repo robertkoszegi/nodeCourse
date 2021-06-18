@@ -1,6 +1,6 @@
 const path = require('path') // module for working with paths
 const express = require('express') //webserver framework
-const hbs = ('hbs')
+const hbs = require('hbs')
 
 const app = express() 
 
@@ -17,24 +17,25 @@ hbs.registerPartials(partialsPath, (err) => {})
 // Set up status directory to serve
 app.use(express.static(publicDirectoryPath))
 
-app.get('', (req, res) => {
+app.get('/', (req, res) => {
     res.render('index', {
         title: 'Weather App',
         name: 'Andrew Mead'
     })
 })
 
-app.get('/about.html', (req, res) => {
+app.get('/about', (req, res) => {
     res.render('about', {
         title: 'About me',
-        name: 'Andrew Mead'
+        name: 'Buster'
     })
 })
 
-app.get('/help.html', (req, res) => {
+app.get('/help', (req, res) => {
     res.render('help', {
         title: 'Help page',
-        message: 'This is the help page'
+        message: 'This is the help page',
+		name: 'James Bond'
     })
 })
 
@@ -48,7 +49,21 @@ app.get('/weather', (req, res) => {
     )
 })
 
+app.get('/help/*', (req, res) => {
+	res.render('404', {
+		title: '404',
+		name: 'RK',
+		errorMessage: 'Help article not found'
+	})
+})
 
+app.get('*', (req, res) => {
+	res.render('404', {
+		title: '404',
+		name: 'RK',
+		errorMessage: 'Page not found'
+	})
+})
 
 app.listen(3000, () => {
     console.log('Server is up on port 3000')
